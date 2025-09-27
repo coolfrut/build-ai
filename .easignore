@@ -1,0 +1,3 @@
+bun.lock
+.bun
+node_modules/.cache 

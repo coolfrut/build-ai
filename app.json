@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "Builder City",
+    "slug": "buildercity",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "buildercity",
+    "userInterfaceStyle": "dark",
+    "statusBarStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#050508"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "app.slot.slotsmachines.buildercity",
+      "statusBarStyle": "dark",
+      "statusBarBackgroundColor": "#000000"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#050508"
+      },
+      "statusBarStyle": "dark",
+      "statusBarBackgroundColor": "#000000",
+      "package": "app.slot.slotsmachines.buildercity"
+    },
+    "web": {
+      "favicon": "./assets/images/icon.png"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "origin": "https://rork.com/"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": "https://rork.com/"
+      },
+      "eas": {
+        "projectId": "0fcc0ccf-0045-4440-8def-4ced36dc9791"
+      }
+    }
+  }
+}
