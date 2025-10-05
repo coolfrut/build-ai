@@ -1,4 +1,4 @@
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY = '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';
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 export interface ChatMessage {
@@ -31,7 +31,7 @@ export class OpenAIService {
       });
 
       if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.status}`);
+        throw new Error(`OpenAI API error: ${await response.text()}`);
       }
 
       const data = await response.json();

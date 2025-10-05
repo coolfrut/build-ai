@@ -1,13 +1,12 @@
 {
   "expo": {
-    "name": "Builder City",
+    "name": "Slots City Ua",
     "slug": "buildercity",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "buildercity",
     "userInterfaceStyle": "dark",
-    "statusBarStyle": "dark",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash-icon.png",
@@ -16,17 +15,13 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "app.slot.slotsmachines.buildercity",
-      "statusBarStyle": "dark",
-      "statusBarBackgroundColor": "#000000"
+      "bundleIdentifier": "app.slot.slotsmachines.buildercity"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#050508"
       },
-      "statusBarStyle": "dark",
-      "statusBarBackgroundColor": "#000000",
       "package": "app.slot.slotsmachines.buildercity"
     },
     "web": {
@@ -38,7 +33,9 @@
         {
           "origin": "https://rork.com/"
         }
-      ]
+      ],
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true

@@ -81,7 +81,7 @@ export default function OnboardingScreen() {
         />
         
         {/* Dark Overlay */}
-        <View style={styles.darkOverlay} />
+        {/* <View style={styles.darkOverlay} /> */}
 
         {/* Text Content */}
         <View style={styles.textContainer}>
@@ -94,8 +94,6 @@ export default function OnboardingScreen() {
           <Text style={styles.continueButtonText}>{currentData.buttonText}</Text>
         </TouchableOpacity>
 
-        {/* Home Indicator */}
-        <View style={styles.homeIndicator} />
       </View>
     </View>
   );

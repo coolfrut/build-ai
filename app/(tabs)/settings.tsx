@@ -7,6 +7,7 @@ import {
   ScrollView,
   Switch,
   Alert,
+  Linking,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -34,6 +35,20 @@ export default function SettingsScreen() {
       }
     } catch (error) {
       console.error('Error loading username:', error);
+    }
+  };
+
+  const openURL = async (url: string) => {
+    try {
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert('Error', 'Unable to open this link');
+      }
+    } catch (error) {
+      console.error('Error opening URL:', error);
+      Alert.alert('Error', 'Failed to open link');
     }
   };
 
@@ -82,7 +97,7 @@ export default function SettingsScreen() {
       title: 'Terms of Services',
       icon: 'document-text-outline',
       onPress: () => {
-        Alert.alert('Terms of Services', 'This feature will be available in a future update.');
+        openURL('https://www.freeprivacypolicy.com/live/9b3a0809-ea80-420b-a6d7-f75172a6dda1');
       },
     },
     {
@@ -90,7 +105,7 @@ export default function SettingsScreen() {
       title: 'Privacy Policy',
       icon: 'shield-outline',
       onPress: () => {
-        Alert.alert('Privacy Policy', 'This feature will be available in a future update.');
+        openURL('https://www.freeprivacypolicy.com/live/2f728c5b-cfca-4734-b9bb-12a31bbd993f');
       },
     },
     {
