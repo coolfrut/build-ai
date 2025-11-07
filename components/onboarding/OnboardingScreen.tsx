@@ -25,22 +25,22 @@ interface OnboardingSlide {
 const onboardingData: OnboardingSlide[] = [
   {
     id: 1,
-    title: '🏗️ Manage Your Projects',
-    description: 'Track construction projects from start to finish. Add photos, set budgets, and monitor progress all in one place.',
+    title: '🍽️ Track Your Meals',
+    description: 'Log your daily meals with ease. Add photos, track calories, and monitor your nutrition all in one place.',
     image: require('../../assets/images/onboarding/slide1.png'),
     buttonText: 'Continue',
   },
   {
     id: 2,
-    title: '🧮 Smart Calculator',
-    description: 'Calculate materials, costs, and measurements with ease. Get accurate estimates for cement, bricks, and more.',
+    title: '📸 AI Food Scanner',
+    description: 'Take a photo of your meal and let AI identify the food and calculate calories automatically.',
     image: require('../../assets/images/onboarding/slide2.png'),
     buttonText: 'Continue',
   },
   {
     id: 3,
-    title: '📱 Document Scanner',
-    description: 'Scan receipts, blueprints, and invoices. Extract text automatically and get AI insights for your construction needs.',
+    title: '💬 AI Nutritionist',
+    description: 'Chat with AI nutritionist to get personalized advice, meal plans, and answers to your nutrition questions.',
     image: require('../../assets/images/onboarding/slide3.png'),
     buttonText: 'Get Started',
   },
@@ -71,17 +71,16 @@ export default function OnboardingScreen() {
     <View style={styles.container}>
       <StatusBar style="light" backgroundColor="#000000" translucent={false} />
       
-      {/* Main Content with Background Image */}
+      {/* Main Content */}
       <View style={styles.content}>
-        {/* Background Image */}
-        <Image
-          source={currentData.image}
-          style={styles.backgroundImage}
-          resizeMode="cover"
-        />
-        
-        {/* Dark Overlay */}
-        {/* <View style={styles.darkOverlay} /> */}
+        {/* Image at the top */}
+        <View style={styles.imageContainer}>
+          <Image
+            source={currentData.image}
+            style={styles.image}
+            resizeMode="contain"
+          />
+        </View>
 
         {/* Text Content */}
         <View style={styles.textContainer}>
@@ -93,7 +92,6 @@ export default function OnboardingScreen() {
         <TouchableOpacity style={styles.continueButton} onPress={handleNext}>
           <Text style={styles.continueButtonText}>{currentData.buttonText}</Text>
         </TouchableOpacity>
-
       </View>
     </View>
   );
@@ -108,22 +106,18 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
   },
-  backgroundImage: {
+  imageContainer: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
+    height: '70%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
     width: '100%',
     height: '100%',
-  },
-  darkOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(5, 5, 8, 0.6)',
   },
   textContainer: {
     position: 'absolute',

@@ -79,12 +79,21 @@ export default function SettingsScreen() {
     );
   };
 
+  const handleShowOnboarding = async () => {
+    try {
+      await AsyncStorage.removeItem('has_seen_onboarding');
+      router.push('/onboarding');
+    } catch (error) {
+      console.error('Error resetting onboarding:', error);
+    }
+  };
+
   const settingsItems = [
     {
-      id: 'downloads',
-      title: 'Downloads',
-      icon: 'download-outline',
-      onPress: () => router.push('/downloads'),
+      id: 'onboarding',
+      title: 'Show Onboarding',
+      icon: 'information-circle-outline',
+      onPress: handleShowOnboarding,
     },
     {
       id: 'account',

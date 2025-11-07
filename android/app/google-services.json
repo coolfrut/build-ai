@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "202481088267",
+    "project_id": "slots-city-87759",
+    "storage_bucket": "slots-city-87759.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202481088267:android:3197d88d9c5e5c57f5540e",
+        "android_client_info": {
+          "package_name": "app.slot.slotsmachines.buildercity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpEwDDIurhWI58BNqg8MW8pPh07P_PXXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

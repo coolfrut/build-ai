@@ -1,7 +1,8 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { View, Platform, Image } from 'react-native';
+import { View, Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   return (
@@ -39,70 +40,27 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          href: null, // Hide this tab
-        }}
-      />
-      <Tabs.Screen
-        name="projects"
-        options={{
-          title: 'Projects',
-          tabBarIcon: ({ color, size }) => (
-            <Image 
-              source={require('../../assets/images/tabs/projects.png')} 
-              style={{ 
-                width: size, 
-                height: size, 
-                tintColor: color 
-              }}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="calculator"
-        options={{
-          title: 'Calculator',
-          tabBarIcon: ({ color, size }) => (
-            <Image 
-              source={require('../../assets/images/tabs/calculator.png')} 
-              style={{ 
-                width: size, 
-                height: size, 
-                tintColor: color 
-              }}
-            />
+          title: 'Nutrition',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="restaurant" size={24} color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="ai-builder"
         options={{
-          title: 'AI Builder',
-          tabBarIcon: ({ color, size }) => (
-            <Image 
-              source={require('../../assets/images/tabs/ai_builder.png')} 
-              style={{ 
-                width: size, 
-                height: size, 
-                tintColor: color 
-              }}
-            />
+          title: 'AI Chat',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="chatbubbles" size={24} color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="scanner"
         options={{
-          title: 'Scanner',
-          tabBarIcon: ({ color, size }) => (
-            <Image 
-              source={require('../../assets/images/tabs/scanner.png')} 
-              style={{ 
-                width: size, 
-                height: size, 
-                tintColor: color 
-              }}
-            />
+          title: 'Camera',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="camera" size={24} color={color} />
           ),
         }}
       />
@@ -110,16 +68,21 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: 'Settings',
-          tabBarIcon: ({ color, size }) => (
-            <Image 
-              source={require('../../assets/images/tabs/settings.png')} 
-              style={{ 
-                width: size, 
-                height: size, 
-                tintColor: color 
-              }}
-            />
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="settings" size={24} color={color} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="projects"
+        options={{
+          href: null, // Hide this tab
+        }}
+      />
+      <Tabs.Screen
+        name="calculator"
+        options={{
+          href: null, // Hide this tab
         }}
       />
     </Tabs>

@@ -1,14 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, AppState } from 'react-native';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import WebView, { WebViewNavigation } from 'react-native-webview';
+import firebaseService from '../utils/firebaseService';
 
 const ONBOARDING_KEY = 'has_seen_onboarding';
 const GATE_URL = 'https://insanecrockslux.com/buildcityapp';
 const GATE_CACHE_KEY = 'cached_gate_url';
 const EMPTY_REDIRECT = 'http://empty';
 const REDIRECT_WAIT_TIMEOUT = 30000;
+const APP_INSTALL_TRACKED_KEY = 'app_install_tracked';
 
 const normalizeUrl = (raw?: string | null) =>
   raw ? raw.trim().replace(/\/$/, '').toLowerCase() : '';
@@ -32,6 +34,51 @@ export default function Index() {
   useEffect(() => {
     return () => {
       isMountedRef.current = false;
+    };
+  }, []);
+
+  // Initialize Firebase and track app install
+  useEffect(() => {
+    const initializeFirebase = async () => {
+      try {
+        // Initialize Firebase
+        await firebaseService.initialize();
+        
+        // Check if this is the first install
+        const installTracked = await AsyncStorage.getItem(APP_INSTALL_TRACKED_KEY);
+        
+        if (installTracked === null) {
+          // First time opening the app - track install
+          console.log('[Firebase] First app launch detected - tracking install');
+          await firebaseService.logAppInstall();
+          await AsyncStorage.setItem(APP_INSTALL_TRACKED_KEY, 'true');
+        }
+        
+        // Always track app open
+        await firebaseService.logAppOpen();
+      } catch (error) {
+        console.error('[Firebase] Error during initialization:', error);
+      }
+    };
+
+    initializeFirebase();
+  }, []);
+
+  // Track app foreground events
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', async (nextAppState) => {
+      if (nextAppState === 'active') {
+        console.log('[Firebase] App entered foreground');
+        try {
+          await firebaseService.logAppOpen();
+        } catch (error) {
+          console.error('[Firebase] Error tracking foreground event:', error);
+        }
+      }
+    });
+
+    return () => {
+      subscription.remove();
     };
   }, []);
 

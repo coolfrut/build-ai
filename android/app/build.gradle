@@ -92,8 +92,8 @@ android {
         applicationId 'app.slot.slotsmachines.buildercity'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
-        versionName "1.0.0"
+        versionCode 6
+        versionName "1.2.0"
     }
     signingConfigs {
         debug {
@@ -180,3 +180,5 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+apply plugin: 'com.google.gms.google-services'

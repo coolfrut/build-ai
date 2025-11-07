@@ -46,23 +46,23 @@ export class OpenAIService {
     userQuery: string, 
     chatHistory: ChatMessage[]
   ): Promise<{ response: string; suggestions: string[] }> {
-    const systemPrompt = `You are an AI Building Assistant. You help with construction questions, material calculations, work planning, and construction project consultations.
+    const systemPrompt = `You are an AI Nutritionist consultant. You help with questions about nutrition, calories, diet and healthy lifestyle.
 
 Your capabilities:
-1. Material calculations (cement, brick, metal, wood, etc.)
-2. Construction work planning
-3. Project cost estimation
-4. Construction technology advice
-5. Tool and equipment recommendations
-6. Material selection assistance
+1. Calculate calories and macronutrients
+2. Provide healthy eating recommendations
+3. Create meal plans
+4. Give advice on weight loss/gain
+5. Provide information about food products and their benefits
+6. Recommend eating schedules
 
 Guidelines:
 1. Be friendly and professional
-2. Provide specific recommendations when possible
+2. Give specific recommendations
 3. Ask clarifying questions for better understanding
-4. Suggest alternative solutions
+4. Suggest alternative options
 5. Keep responses concise but helpful
-6. If information is lacking, ask for more details
+6. If additional information is needed, ask for it
 
 Respond in English naturally and conversationally.`;
 
@@ -76,40 +76,41 @@ Respond in English naturally and conversationally.`;
       const response = await this.makeRequest(messages);
       
       // Generate suggestions based on response
-      const suggestions = this.generateSuggestions(userQuery, response);
+      const suggestions = this.generateNutritionSuggestions(userQuery, response);
       
       return { response, suggestions };
     } catch (error) {
       return {
-        response: "I'm having connection issues right now. Please try again in a moment.",
-        suggestions: ['Try again', 'Ask about materials', 'Cost calculation']
+        response: "I'm having connection issues. Please try again in a moment.",
+        suggestions: ['Try again', 'Ask about protein', 'Calculate calories']
       };
     }
   }
 
-  private static generateSuggestions(userQuery: string, aiResponse: string): string[] {
+  private static generateNutritionSuggestions(userQuery: string, aiResponse: string): string[] {
     const lowerQuery = userQuery.toLowerCase();
     const suggestions = [];
 
     // Generate contextual suggestions based on user query
-    if (lowerQuery.includes('cement') || lowerQuery.includes('concrete')) {
-      suggestions.push('Rebar calculation', 'Mix proportions', 'Curing time');
-    } else if (lowerQuery.includes('brick') || lowerQuery.includes('masonry')) {
-      suggestions.push('Mortar calculation', 'Brick types', 'Laying technique');
-    } else if (lowerQuery.includes('estimate') || lowerQuery.includes('cost')) {
-      suggestions.push('Material calculation', 'Labor costs', 'Cost optimization');
-    } else if (lowerQuery.includes('plan') || lowerQuery.includes('stages')) {
-      suggestions.push('Preparation work', 'Main stages', 'Timeline');
-    } else if (lowerQuery.includes('foundation')) {
-      suggestions.push('Foundation types', 'Depth requirements', 'Waterproofing');
-    } else if (lowerQuery.includes('roof') || lowerQuery.includes('roofing')) {
-      suggestions.push('Roofing materials', 'Roof insulation', 'Gutters');
+    if (lowerQuery.includes('protein') || lowerQuery.includes('amino')) {
+      suggestions.push('Protein sources', 'Daily protein needs', 'Plant-based protein');
+    } else if (lowerQuery.includes('calorie') || lowerQuery.includes('weight loss')) {
+      suggestions.push('Calorie deficit', 'Portion control', 'Low-calorie foods');
+    } else if (lowerQuery.includes('workout') || lowerQuery.includes('exercise')) {
+      suggestions.push('Pre-workout meals', 'Post-workout nutrition', 'Sports nutrition');
+    } else if (lowerQuery.includes('plan') || lowerQuery.includes('meal')) {
+      suggestions.push('Weekly menu', 'Healthy snacks', 'Eating schedule');
+    } else if (lowerQuery.includes('vitamin') || lowerQuery.includes('mineral')) {
+      suggestions.push('Vitamin sources', 'Daily requirements', 'Vitamin deficiency');
+    } else if (lowerQuery.includes('breakfast') || lowerQuery.includes('lunch') || lowerQuery.includes('dinner')) {
+      suggestions.push('Breakfast ideas', 'Healthy dinner', 'Balanced lunch');
     } else {
-      suggestions.push('Popular materials', 'New technologies', 'Proven solutions');
+      suggestions.push('Healthy foods', 'Hydration tips', 'Macro balance');
     }
 
     return suggestions.slice(0, 3);
   }
+
 
   static async getMaterialInfo(materialName: string): Promise<string> {
     const systemPrompt = `You are a construction materials expert. Provide a brief but informative description of the material "${materialName}". 
@@ -141,6 +142,93 @@ Respond in English naturally and conversationally.`;
       return await this.makeRequest(messages);
     } catch (error) {
       return `I can't perform the calculation for "${projectDetails}" right now. Please try later.`;
+    }
+  }
+
+  static async analyzeFoodImage(imageBase64: string): Promise<{ name: string; calories: number } | null> {
+    try {
+      const response = await fetch(OPENAI_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [
+            {
+              role: 'system',
+              content: `You are a nutrition expert. Analyze the food image and return ONLY valid JSON without any additional text.
+              
+Response format:
+{
+  "name": "Dish name in English",
+  "calories": number_of_calories
+}
+
+Rules:
+- If the photo is NOT food, return: {"name": "Unable to identify dish", "calories": 0}
+- Name should be brief and clear
+- Calories should be for the average portion in the photo
+- Return ONLY JSON, without markdown or other characters`
+            },
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'text',
+                  text: 'Analyze this food image and return JSON with the dish name and calorie count.'
+                },
+                {
+                  type: 'image_url',
+                  image_url: {
+                    url: `data:image/jpeg;base64,${imageBase64}`,
+                    detail: 'low'
+                  }
+                }
+              ]
+            }
+          ],
+          max_tokens: 300,
+          temperature: 0.3,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('OpenAI Vision API error:', errorText);
+        throw new Error(`OpenAI Vision API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const content = data.choices[0]?.message?.content;
+      
+      if (!content) {
+        throw new Error('No content in response');
+      }
+
+      // Clean the response - remove markdown code blocks if present
+      let cleanContent = content.trim();
+      if (cleanContent.startsWith('```json')) {
+        cleanContent = cleanContent.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+      } else if (cleanContent.startsWith('```')) {
+        cleanContent = cleanContent.replace(/```\n?/g, '');
+      }
+
+      const result = JSON.parse(cleanContent);
+      
+      // Validate the result
+      if (result && typeof result.name === 'string' && typeof result.calories === 'number') {
+        return {
+          name: result.name,
+          calories: Math.max(0, Math.round(result.calories))
+        };
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error analyzing food image:', error);
+      return null;
     }
   }
 }

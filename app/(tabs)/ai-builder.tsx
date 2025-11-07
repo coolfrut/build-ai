@@ -91,10 +91,10 @@ export default function AIBuilderScreen() {
   const scrollViewRef = useRef<ScrollView>(null);
 
   const quickQuestions = [
-    'How much cement for 100 m²?',
-    'Calculate project estimate',
-    'Create work plan',
-    'Suggest materials',
+    'What foods are high in protein?',
+    'How to calculate calories for weight loss?',
+    'What to eat before a workout?',
+    'Create a meal plan for the day',
   ];
 
   // Helper function to add message to chat history
@@ -316,11 +316,11 @@ export default function AIBuilderScreen() {
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <View style={styles.avatarContainer}>
-              <Ionicons name="construct" size={28} color="#050508" />
-            </View>
+          <View style={styles.avatarContainer}>
+            <Ionicons name="nutrition" size={28} color="#050508" />
+          </View>
             <View style={styles.headerInfo}>
-              <Text style={styles.headerTitle}>AI BUILDER</Text>
+              <Text style={styles.headerTitle}>AI NUTRITIONIST</Text>
               <Text style={styles.headerSubtitle}>Online</Text>
             </View>
           </View>
@@ -338,19 +338,19 @@ export default function AIBuilderScreen() {
         {/* Welcome Message - Show only when chat hasn't started */}
         {!chatStarted && (
           <View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeTitle}>You're now connected</Text>
+            <Text style={styles.welcomeTitle}>Welcome!</Text>
             <View style={styles.welcomeFeatures}>
               <View style={styles.featureItem}>
                 <View style={styles.featureDot} />
-                <Text style={styles.featureText}>Enjoy chat with AI Builder</Text>
+                <Text style={styles.featureText}>Ask questions about nutrition and diet</Text>
               </View>
               <View style={styles.featureItem}>
                 <View style={styles.featureDot} />
-                <Text style={styles.featureText}>Feel free to ask about construction</Text>
+                <Text style={styles.featureText}>Get calorie recommendations</Text>
               </View>
               <View style={styles.featureItem}>
                 <View style={styles.featureDot} />
-                <Text style={styles.featureText}>Your advisor is here to listen and help</Text>
+                <Text style={styles.featureText}>I'll help you create a meal plan</Text>
               </View>
             </View>
           </View>
@@ -429,7 +429,7 @@ export default function AIBuilderScreen() {
         {/* Quick Questions and AI Suggestions */}
         <View style={styles.quickQuestionsContainer}>
           <Text style={styles.quickQuestionsTitle}>
-            {suggestions.length > 0 ? 'Suggested questions:' : 'Common questions:'}
+            {suggestions.length > 0 ? 'Suggested questions:' : 'Popular questions:'}
           </Text>
           <ScrollView 
             horizontal 
